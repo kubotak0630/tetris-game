@@ -147,7 +147,7 @@ export default Vue.extend({
 
     // Subscribe to desired event
     manager.on('press', function(e: any) {
-      alert('pressed!');
+      // alert('pressed!');
     });
 
     this.prevTimestamp = performance.now();
