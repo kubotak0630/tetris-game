@@ -6,7 +6,7 @@ export default class AudioCtrl {
 
     // load()直後に再生しないようにautoplayをfalseに設定
     this._audio.autoplay = false;
-    this._audio.volume = 0.3;
+    this._audio.volume = 0.4;
 
     this._audio.load();
 

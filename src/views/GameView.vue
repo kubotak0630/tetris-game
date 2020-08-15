@@ -1,12 +1,12 @@
 <template>
   <div class="game-wrapper">
     <div class="game-top">
-      <el-button
-        class="back-titile-button"
-        size="small"
-        type="primary"
-        @click="onClicBackTitle"
-      >タイトルへ戻る</el-button>
+      <el-button class="back-titile-button" size="small" type="primary" @click="onClicBackTitle"
+        >タイトルへ戻る</el-button
+      >
+
+      <!-- <div id="target">長押ししてください</div> -->
+
       <div class="game-view">
         <VBord v-bind:board="tetris.board"></VBord>
 
@@ -14,23 +14,26 @@
           <div>NEXT</div>
           <VNextMinoArea v-bind:nextArea="tetris.nextMinoArea"></VNextMinoArea>
           <div class="tag-level">Level</div>
-          <div>{{computedLevel}}</div>
+          <div>{{ computedLevel }}</div>
           <div class="tag-line">Line</div>
-          <div>{{computedLine}}</div>
+          <div>{{ computedLine }}</div>
           <div class="tag-score">Score</div>
-          <div>{{computedScore}}</div>
-          <el-button
-            class="stop-button"
-            type="primary"
-            @click="onClickStop"
-          >{{ stopFlg ? 'Resume' : 'Stop' }}</el-button>
+          <div>{{ computedScore }}</div>
+          <el-button class="stop-button" type="primary" @click="onClickStop">{{
+            stopFlg ? 'Resume' : 'Stop'
+          }}</el-button>
         </div>
       </div>
 
       <div class="key-wrapper">
         <div class="dir-key">
           <div class="key-left-right-wrapper">
-            <el-button class="key-left" type="info" icon="el-icon-caret-left" @click="onBtnKeyLeft"></el-button>
+            <el-button
+              class="key-left"
+              type="info"
+              icon="el-icon-caret-left"
+              @click="onBtnKeyLeft"
+            ></el-button>
             <el-button
               class="key-right"
               type="info"
@@ -40,6 +43,7 @@
           </div>
           <div>
             <el-button
+              id="target"
               class="key-down"
               type="info"
               icon="el-icon-caret-bottom"
@@ -71,6 +75,7 @@ import Vue, { PropType } from 'vue';
 import VBord from '../components/VBord.vue';
 import VNextMinoArea from '../components/VNextMinoArea.vue';
 import Tetris from '../tetris';
+import Hammer from 'hammerjs';
 
 type DataType = {
   tetris: Tetris;
@@ -110,19 +115,9 @@ export default Vue.extend({
   async created() {
     console.log('--call created--');
 
-    //時間を待つ関数
-    let waitTime = (msec: number) => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, msec);
-      });
-    };
-
-    // ipadは全画面表示にしない
+    // ipadは全画面表示にしない。スマホのみ全画面表示
     if (document.documentElement.clientWidth < 500) {
       document.body.requestFullscreen();
-      await waitTime(500); //requestFullscreenはPromiseを返す関数だが非対応ブラウザがあるので手動で待つ
     }
   },
   mounted() {
@@ -140,6 +135,20 @@ export default Vue.extend({
 
     const deviceWidth = document.documentElement.clientWidth;
     this.tetris.smaphoModeFlg = deviceWidth <= 834;
+
+    const elm = document.querySelector('#target');
+    const manager = new Hammer.Manager(elm!);
+    const hammertime = new Hammer.Press({
+      time: 500,
+    });
+
+    // Add the recognizer to the manager
+    manager.add(hammertime);
+
+    // Subscribe to desired event
+    manager.on('press', function(e: any) {
+      alert('pressed!');
+    });
 
     this.prevTimestamp = performance.now();
     this.animationId = requestAnimationFrame(this.gameLoop.bind(this));
@@ -241,12 +250,15 @@ export default Vue.extend({
         }
       }
     },
+    //「タイトル画面へ戻る」ボタンの処理
     onClicBackTitle() {
       cancelAnimationFrame(this.animationId);
       this.tetris.music.stop();
       this.$router.push({ name: 'TitleView' });
 
-      document.exitFullscreen();
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
     },
     onBtnKeyLeft() {
       this.tetris.moveMino(-1, 0);
