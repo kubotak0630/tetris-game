@@ -16,8 +16,10 @@ export default class Tetris {
 
   private _gameOverFlg: boolean;
   private _nowLineDeleteFrameCnt: number;
+  private _smaphoMode: boolean;
 
   constructor() {
+    console.log('call Tetris constructor');
     this._minoBag = new MinoBag();
     this._board = new Board();
     this._nextMinoArea = new NextMinoArea();
@@ -26,6 +28,7 @@ export default class Tetris {
     this._mino = null;
     this._gameOverFlg = false;
     this._nowLineDeleteFrameCnt = 0;
+    this._smaphoMode = false;
 
     this._board.draw();
   }
@@ -60,6 +63,10 @@ export default class Tetris {
     return this._audioCtrl;
   }
 
+  set smaphoModeFlg(flg: boolean) {
+    this._smaphoMode = flg;
+  }
+
   //Minoがゲーム中に存在しているかどうか？
   haveMino(): boolean {
     return this._mino !== null;
@@ -69,7 +76,10 @@ export default class Tetris {
     //バッグから値を取り出す
     const minoIndex = this._minoBag.getMinoIndex();
 
-    this._mino = new Mino(minoIndex!);
+    this._mino = new Mino(minoIndex!, this._smaphoMode);
+
+    //NextMino領域への設定
+    this._nextMinoArea.setMinos(this._minoBag.netxMinoList);
   }
 
   //移動可能なら移動
@@ -128,9 +138,6 @@ export default class Tetris {
     for (let elem of this._mino.getElementPosAry()) {
       this._board.setCell(elem, this._mino.minoColor);
     }
-
-    //NextMino領域への設定
-    this._nextMinoArea.setMinos(this._minoBag.netxMinoList);
   }
 
   private _isGameOver(posAry: Pos[]): boolean {

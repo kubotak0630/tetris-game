@@ -25,7 +25,10 @@ export enum MinoIndex {
 const colorList: MinoColor[] = ['Cyan', 'Blue', 'Orange', 'Green', 'Red', 'Magenta', 'Yellow'];
 
 export default class Mino {
-  static readonly MOVE_FREE_AFTER_FIX = 20; //Minoが固定されるまでの遊びフレーム, 60fpsの場合は1/60*20=0.33msの遊び
+  //Minoが固定されるまでの遊びフレーム, 60fpsの場合は1/60*20=0.33msの遊び
+  //ボタン操作は反応が遅れるので0.5ms(30)にする
+  static readonly FREE_AFTER_FIX_NORMAL = 18;
+  static readonly FREE_AFTER_FIX_SMAPHO = 30;
 
   private _pos: Pos;
   private _rotateNumber: RotateNumType;
@@ -33,13 +36,15 @@ export default class Mino {
   private _moveMarginCnt: number; //下についてから確定するまでの遊び時間。これが０で確定
   private _minoColor: MinoColor;
 
-  constructor(minoIdx: MinoIndex) {
+  constructor(minoIdx: MinoIndex, smaphoMode: boolean) {
     this._rotateNumber = 0;
-    this._moveMarginCnt = Mino.MOVE_FREE_AFTER_FIX; //30fpsの場合は1/30*8=0.33msの遊び
+    this._moveMarginCnt = smaphoMode ? Mino.FREE_AFTER_FIX_SMAPHO : Mino.FREE_AFTER_FIX_NORMAL;
     this._rPoints = [];
     this._minoColor = colorList[minoIdx];
     this._pos = { x: 4, y: 1 }; //出現の中心座標
     let basicPoints: number[][]; //回転０の座標
+
+    console.log('FREE_FIX_TIME', this._moveMarginCnt);
 
     /**** 基本座標(回転0)を設定 ***********/
     switch (minoIdx) {

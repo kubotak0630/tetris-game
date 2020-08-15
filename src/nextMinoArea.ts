@@ -41,7 +41,8 @@ export default class NextMinoArea {
     }
 
     minoIndexList.forEach((elem, index) => {
-      this._nextMinoList[index] = new Mino(elem);
+      //第二引数はここでは関係ない
+      this._nextMinoList[index] = new Mino(elem, false);
     });
 
     this._nextMinoList.forEach((mino, index) => {

@@ -106,8 +106,12 @@ export default Vue.extend({
       fpsInterval: 1000 / 60, //分母は60で割り切れる数に対応(30,20,15,10 etc)
     };
   },
-  created() {},
+  beforeCreate() {},
+  created() {
+    console.log('--call created--');
+  },
   mounted() {
+    console.log('--call mounted--');
     document.onkeydown = (ev: KeyboardEvent) => {
       if (ev.keyCode === 37) this.actionKey('left');
       else if (ev.keyCode === 38) this.actionKey('up');
@@ -118,6 +122,9 @@ export default Vue.extend({
       //x key
       else if (ev.keyCode === 88) this.actionKey('left-rotation');
     };
+
+    const deviceWidth = document.documentElement.clientWidth;
+    this.tetris.smaphoModeFlg = deviceWidth <= 834;
 
     this.prevTimestamp = performance.now();
     this.animationId = requestAnimationFrame(this.gameLoop.bind(this));
