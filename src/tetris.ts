@@ -3,14 +3,16 @@ import Mino, { MinoIndex } from './mino';
 import MinoBag from './minoBag';
 import { Avatar } from 'element-ui';
 import NextMinoArea from './nextMinoArea';
-import ScoreCalc from './scoreCalc';
+import ScoreCtrl from './scoreCtrl';
+import AudioCtrl from './audioCtrl';
 
 export default class Tetris {
   private _board: Board;
   private _mino: Mino | null;
   private _nextMinoArea: NextMinoArea;
   private _minoBag: MinoBag;
-  private _scoreCalc: ScoreCalc;
+  private _scoreCtrl: ScoreCtrl;
+  private _audioCtrl: AudioCtrl;
 
   private _gameOverFlg: boolean;
   private _nowLineDeleteFrameCnt: number;
@@ -19,7 +21,8 @@ export default class Tetris {
     this._minoBag = new MinoBag();
     this._board = new Board();
     this._nextMinoArea = new NextMinoArea();
-    this._scoreCalc = new ScoreCalc();
+    this._scoreCtrl = new ScoreCtrl();
+    this._audioCtrl = new AudioCtrl('./music.mp3');
     this._mino = null;
     this._gameOverFlg = false;
     this._nowLineDeleteFrameCnt = 0;
@@ -40,17 +43,21 @@ export default class Tetris {
   }
 
   get lines(): number {
-    return this._scoreCalc.lines;
+    return this._scoreCtrl.lines;
   }
   get level(): number {
-    return this._scoreCalc.level;
+    return this._scoreCtrl.level;
   }
   get score(): number {
-    return this._scoreCalc.score;
+    return this._scoreCtrl.score;
   }
   //Levelに応じた60-2を返す。1マス落下するのにかかるフレーム
   get speed(): number {
-    return this._scoreCalc.speed;
+    return this._scoreCtrl.speed;
+  }
+
+  get music(): AudioCtrl {
+    return this._audioCtrl;
   }
 
   //Minoがゲーム中に存在しているかどうか？
@@ -159,7 +166,7 @@ export default class Tetris {
           const delLineNum = this.board.deleteLineStep1(this._mino.getMinoLines());
           if (delLineNum) {
             this._nowLineDeleteFrameCnt = 10;
-            this._scoreCalc.addLineCnt(delLineNum);
+            this._scoreCtrl.addLineCnt(delLineNum);
           } else {
             this._mino = null;
           }

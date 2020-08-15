@@ -23,7 +23,7 @@
             class="stop-button"
             type="primary"
             @click="onClickStop"
-          >{{ stopFlg ? 'Continue' : 'Stop' }}</el-button>
+          >{{ stopFlg ? 'Resume' : 'Stop' }}</el-button>
         </div>
       </div>
 
@@ -88,6 +88,13 @@ export default Vue.extend({
     VBord,
     VNextMinoArea,
   },
+  props: {
+    isPlyaMusic: {
+      type: String as PropType<'on' | 'off'>,
+      // required: true,
+      default: 'off',
+    },
+  },
   data(): DataType {
     return {
       tetris: new Tetris(),
@@ -114,6 +121,9 @@ export default Vue.extend({
 
     this.prevTimestamp = performance.now();
     this.animationId = requestAnimationFrame(this.gameLoop.bind(this));
+    if (this.isPlyaMusic == 'on') {
+      this.tetris.music.play();
+    }
   },
   computed: {
     computedScore(): number {
@@ -197,13 +207,21 @@ export default Vue.extend({
     onClickStop() {
       this.stopFlg = !this.stopFlg;
 
-      //メインループを再開
-      if (!this.stopFlg) {
+      //Stop処理
+      if (this.stopFlg) {
+        this.tetris.music.pause();
+      }
+      //再開処理
+      else if (!this.stopFlg) {
         this.animationId = requestAnimationFrame(this.gameLoop.bind(this));
+        if (this.isPlyaMusic == 'on') {
+          this.tetris.music.play();
+        }
       }
     },
     onClicBackTitle() {
       cancelAnimationFrame(this.animationId);
+      this.tetris.music.stop();
       this.$router.push({ name: 'TitleView' });
     },
     onBtnKeyLeft() {
@@ -239,7 +257,7 @@ export default Vue.extend({
   display: flex;
   justify-content: center;
   margin-top: 6px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 
   .next-area {
     margin-left: 20px;
@@ -281,7 +299,7 @@ export default Vue.extend({
 .key-down {
   font-size: 20px;
   width: 140px;
-  margin-top: 10px;
+  margin-top: 14px;
 }
 
 .key-wrapper {

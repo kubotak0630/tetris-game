@@ -1,5 +1,5 @@
 //点数計算やスピードを決定するクラス
-export default class ScoreCalc {
+export default class ScoreCtrl {
   private _score: number;
   private _level: number;
   private _lines: number;
@@ -13,7 +13,7 @@ export default class ScoreCalc {
     //SPEED_TABLEの初期化
     this.SPEED_TABLE = [60, 55, 50, 45, 40, 35, 30, 26, 23, 20, 18, 16, 14, 12, 10, 8, 6, 5, 4, 3];
 
-    if (this.SPEED_TABLE.length != ScoreCalc.SPEED_LEVEL_NUM) {
+    if (this.SPEED_TABLE.length != ScoreCtrl.SPEED_LEVEL_NUM) {
       console.log('error SPEED_TABLE initialize');
     }
   }
@@ -28,15 +28,15 @@ export default class ScoreCalc {
     return this._score;
   }
   get speed(): number {
-    // return this.SPEED_TABLE[this._level - 1];
-    return this.SPEED_TABLE[6];
+    return this.SPEED_TABLE[this._level - 1];
+    // return this.SPEED_TABLE[6]; //for debug
   }
 
   addLineCnt(cntup: number) {
     this._lines += cntup;
 
     //levelUP, 10ラインで１つレベルが上がる
-    if (this._level < ScoreCalc.SPEED_LEVEL_NUM) {
+    if (this._level < ScoreCtrl.SPEED_LEVEL_NUM) {
       this._level = Math.floor(this._lines / 10) + 1;
     }
 

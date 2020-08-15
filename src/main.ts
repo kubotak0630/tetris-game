@@ -1,10 +1,10 @@
 import Vue from 'vue';
-// import { Button, Tag, RadioGroup, RadioButton } from 'element-ui';
-import { Button } from 'element-ui';
+
+import { Button, RadioGroup, RadioButton, Tag } from 'element-ui';
 Vue.component(Button.name, Button);
-// Vue.component(Tag.name, Tag);
-// Vue.component(RadioGroup.name, RadioGroup);
-// Vue.component(RadioButton.name, RadioButton);
+Vue.component(RadioGroup.name, RadioGroup);
+Vue.component(RadioButton.name, RadioButton);
+Vue.component(Tag.name, Tag);
 
 import 'normalize.css';
 
