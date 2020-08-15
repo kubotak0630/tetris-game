@@ -17,6 +17,7 @@ export default class Tetris {
   private _gameOverFlg: boolean;
   private _nowLineDeleteFrameCnt: number;
   private _smaphoMode: boolean;
+  private _nowFastFall: boolean;
 
   constructor() {
     console.log('call Tetris constructor');
@@ -29,6 +30,7 @@ export default class Tetris {
     this._gameOverFlg = false;
     this._nowLineDeleteFrameCnt = 0;
     this._smaphoMode = false;
+    this._nowFastFall = false;
 
     this._board.draw();
   }
@@ -65,6 +67,14 @@ export default class Tetris {
 
   set smaphoModeFlg(flg: boolean) {
     this._smaphoMode = flg;
+  }
+
+  set nowFastFall(flg: boolean) {
+    this._nowFastFall = flg;
+  }
+
+  get nowFastFall() {
+    return this._nowFastFall;
   }
 
   //Minoがゲーム中に存在しているかどうか？
@@ -155,9 +165,13 @@ export default class Tetris {
 
     //line消去中でない
     if (!this._nowLineDeleteFrameCnt) {
+      const obj = this._mino.getAfterMovePosAry(0, 1);
       // もうこれ以上下に動かすことができなかどうかの判定
-      const rslt = this._mino.getAfterMovePosAry(0, 1);
-      if (!this._board.isMovable(rslt.posAry)) {
+      if (!this._board.isMovable(obj.posAry)) {
+        if (this._nowFastFall) {
+          this._nowFastFall = false;
+        }
+
         if (this._mino.decrementMarginCnt() <= 0) {
           //GameOver判定
           if (this._isGameOver(this._mino.getElementPosAry())) {

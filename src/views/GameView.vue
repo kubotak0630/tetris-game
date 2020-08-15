@@ -146,10 +146,12 @@ export default Vue.extend({
     manager.add(hammertime);
 
     // Subscribe to desired event
-    manager.on('press', function(e: any) {
+    manager.on('press', (e: any) => {
       // alert('pressed!');
+      this.tetris.nowFastFall = true;
     });
 
+    //メインループの起動
     this.prevTimestamp = performance.now();
     this.animationId = requestAnimationFrame(this.gameLoop.bind(this));
     if (this.isPlyaMusic == 'on') {
@@ -226,7 +228,9 @@ export default Vue.extend({
           return;
         }
 
-        if (this.gCoutner % speedFrame === 0) {
+        if (this.tetris.nowFastFall) {
+          this.tetris.moveMino(0, 1);
+        } else if (this.gCoutner % speedFrame === 0) {
           this.tetris.moveMino(0, 1);
         }
         this.tetris.fixMinoAndLineDelete();
