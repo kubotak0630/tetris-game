@@ -29,6 +29,11 @@ export default Vue.extend({
   methods: {
     onStartClick() {
       this.$router.push({ name: 'Game', params: { isPlyaMusic: this.radioMusic } });
+
+      //ipadは全画面表示にしない
+      if (document.documentElement.clientWidth < 500) {
+        document.body.requestFullscreen();
+      }
     },
   },
 });

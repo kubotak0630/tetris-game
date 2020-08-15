@@ -230,6 +230,8 @@ export default Vue.extend({
       cancelAnimationFrame(this.animationId);
       this.tetris.music.stop();
       this.$router.push({ name: 'TitleView' });
+
+      document.exitFullscreen();
     },
     onBtnKeyLeft() {
       this.tetris.moveMino(-1, 0);
