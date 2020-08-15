@@ -225,19 +225,19 @@ export default Vue.extend({
       this.$router.push({ name: 'TitleView' });
     },
     onBtnKeyLeft() {
-      this.actionKey('left');
+      this.tetris.moveMino(-1, 0);
     },
     onBtnKeyRight() {
-      this.actionKey('right');
+      this.tetris.moveMino(1, 0);
     },
     onBtnKeyDown() {
-      this.actionKey('down');
+      this.tetris.moveMino(0, 1);
     },
     onBtnKeyRotateRight() {
-      this.actionKey('right-rotation');
+      this.tetris.moveMino(0, 0, true, true);
     },
     onBtnKeyRotateLeft() {
-      this.actionKey('left-rotation');
+      this.tetris.moveMino(0, 0, true, false);
     },
   },
 });
