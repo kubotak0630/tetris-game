@@ -107,8 +107,23 @@ export default Vue.extend({
     };
   },
   beforeCreate() {},
-  created() {
+  async created() {
     console.log('--call created--');
+
+    //時間を待つ関数
+    let waitTime = (msec: number) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, msec);
+      });
+    };
+
+    // ipadは全画面表示にしない
+    if (document.documentElement.clientWidth < 500) {
+      document.body.requestFullscreen();
+      await waitTime(500); //requestFullscreenはPromiseを返す関数だが非対応ブラウザがあるので手動で待つ
+    }
   },
   mounted() {
     console.log('--call mounted--');
