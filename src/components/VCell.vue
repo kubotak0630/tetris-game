@@ -1,6 +1,5 @@
 <template>
   <div
-    class="cell"
     v-bind:class="{
       'none-cell': isNone,
       'cyan-cell': isCyan,
@@ -12,9 +11,9 @@
       'magenta-cell': isMagenta,
       'wall-cell': isWall,
       'shadow-cell': isShadow, //落下地点の影
-      'bingo-cell': isBingo,
       'field-cell': isField, //FieldとNext領域でサイズを変える
       'next-cell': !isField, //FieldとNext領域でサイズを変える
+      'bingo-flg': isBingo,
     }"
   ></div>
 </template>
@@ -67,7 +66,7 @@ export default Vue.extend({
       return this.cell.cellState === 'Shadow';
     },
     isBingo(): boolean {
-      return this.cell.cellState === 'Bingo';
+      return this.cell.bingoFlg;
     },
   },
 });
@@ -78,6 +77,7 @@ export default Vue.extend({
 .field-cell {
   width: 21px;
   height: 21px;
+  // transition: all 200ms 0s linear;
 }
 
 .next-cell {
@@ -121,9 +121,18 @@ export default Vue.extend({
 }
 
 // 消えるときのエフェクト
-.bingo-cell {
-  transition: all 200ms 0s linear;
+.bingo-flg {
+  transition: all 200ms 50ms linear;
   transform: scaleY(0);
+}
+
+.bingo-flg:after {
+  content: '';
+  display: inline-block;
+  background-color: white;
+  width: 21px;
+  height: 21px;
+  opacity: 0.3;
 }
 
 .shadow-cell {

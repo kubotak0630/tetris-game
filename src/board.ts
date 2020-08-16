@@ -61,6 +61,7 @@ export default class Board {
       for (let x = 0; x < Board.WIDTH; x++) {
         this._cells[y][x].cellState = 'None';
         this._cells[y][x].cellState = this._fixBlocks[y][x].cellState;
+        this._cells[y][x].bingoFlg = this._fixBlocks[y][x].bingoFlg;
       }
     }
   }
@@ -130,8 +131,8 @@ export default class Board {
     this._bingoLines.forEach((deleteLineY, index) => {
       //ライン消去
       for (let x = 0; x < Board.WIDTH; x++) {
-        // this._fixBlocks[deleteLineY][x].cellState = 'None';
-        this._fixBlocks[deleteLineY][x].cellState = 'Bingo';
+        this._fixBlocks[deleteLineY][x].cellState = 'None';
+        this._fixBlocks[deleteLineY][x].bingoFlg = true;
       }
     });
 
@@ -142,6 +143,11 @@ export default class Board {
   deleteLineStep2(): void {
     //ラインをずらす
     this._bingoLines.forEach((deleteLineY, index) => {
+      //bingoFlgをfalseに戻す
+      for (let x = 0; x < Board.WIDTH; x++) {
+        this._fixBlocks[deleteLineY][x].bingoFlg = false;
+      }
+
       //最初のライン(indexが0)以外は既に消されて下にずらされたライン分値を足す
       if (index != 0) {
         deleteLineY += index;

@@ -5,6 +5,8 @@
         >タイトルへ戻る</el-button
       >
 
+      <el-button class="debug-button" type="primary" @click="onClickdebug">debug</el-button>
+
       <!-- <div id="target">長押ししてください</div> -->
 
       <div class="game-view">
@@ -263,6 +265,10 @@ export default Vue.extend({
       if (document.fullscreenElement) {
         document.exitFullscreen();
       }
+    },
+    onClickdebug() {
+      console.log('--debug--');
+      console.log(this.tetris.board);
     },
     onBtnKeyLeft() {
       this.tetris.moveMino(-1, 0);
