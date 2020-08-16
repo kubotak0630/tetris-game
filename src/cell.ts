@@ -21,9 +21,7 @@ export default class Cell {
   }
 
   set bingoFlg(flg: boolean) {
-    // this._state = 'Blue';
     this._bingoFlg = flg;
-    // console.log('aaaaaaaaaaa-bingo', this._bingoFlg);
   }
 
   get bingoFlg(): boolean {
