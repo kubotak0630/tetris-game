@@ -1,6 +1,6 @@
 import { MinoColor } from './mino';
 
-export type CellState = MinoColor | 'None' | 'Wall';
+export type CellState = MinoColor | 'None' | 'Wall' | 'Bingo';
 
 export default class Cell {
   private _state: CellState;

@@ -1,14 +1,11 @@
 <template>
-  <div class="next-mino">
-    <div class="container" v-for="y in areaHeight" :key="y">
-      <VCell
-        v-for="x in areaWidth"
-        :key="(x-1)+(y-1)*areaWidth"
-        :cell="nextArea.getCell({ x: x - 1, y: y - 1 })"
-        :isField="false"
-      ></VCell>
-    </div>
-  </div>
+  <table class="next-mino-tbl">
+    <tr v-for="y in areaHeight" :key="y">
+      <td v-for="x in areaWidth" :key="x - 1 + (y - 1) * areaWidth">
+        <VCell :cell="nextArea.getCell({ x: x - 1, y: y - 1 })" :isField="false"></VCell>
+      </td>
+    </tr>
+  </table>
 </template>
 
 <script lang="ts">
@@ -37,10 +34,12 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.next-mino {
-  .container {
-    display: flex;
-    flex-direction: row;
+.next-mino-tbl {
+  border-collapse: collapse;
+  /* border: 1px solid #333; */
+  td {
+    border: 1px solid #382552;
+    padding: 0;
   }
 }
 </style>

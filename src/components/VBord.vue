@@ -1,15 +1,15 @@
 <template>
-  <div class="board">
-    <!-- 配列は追加や削除がないのでkeyはindexをそのまま利用 -->
-    <div class="container" v-for="y in bordHeight" :key="y">
-      <VCell
-        v-for="x in bordWidth"
-        :key="(x-1)+(y-1)*bordWidth"
-        :cell="board.getCell({ x: x - 1, y: y - 1 })"
-        :field="true"
-      ></VCell>
-    </div>
-  </div>
+  <!-- 配列は追加や削除がないのでkeyはindexをそのまま利用 -->
+  <!-- ライン消去時のために背景用のセルをもつ -->
+  <table class="tbl">
+    <tr v-for="y in bordHeight" :key="y">
+      <td v-for="x in bordWidth" :key="x - 1 + (y - 1) * bordWidth">
+        <div class="bkg-cell">
+          <VCell :cell="board.getCell({ x: x - 1, y: y - 1 })" :isField="true"></VCell>
+        </div>
+      </td>
+    </tr>
+  </table>
 </template>
 
 <script lang="ts">
@@ -38,10 +38,17 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.board {
-  .container {
-    display: flex;
-    flex-direction: row;
+.tbl {
+  border-collapse: collapse;
+  /* border: 1px solid #333; */
+  td {
+    border: 1px solid #382552;
+    padding: 0;
+  }
+  .bkg-cell {
+    width: 21px;
+    height: 21px;
+    background-color: #180532;
   }
 }
 </style>

@@ -27,7 +27,7 @@ const colorList: MinoColor[] = ['Cyan', 'Blue', 'Orange', 'Green', 'Red', 'Magen
 export default class Mino {
   //Minoが固定されるまでの遊びフレーム, 60fpsの場合は1/60*20=0.33msの遊び
   //ボタン操作は反応が遅れるので0.5ms(30)にする
-  static readonly FREE_AFTER_FIX_NORMAL = 18;
+  static readonly FREE_AFTER_FIX_NORMAL = 20;
   static readonly FREE_AFTER_FIX_SMAPHO = 30;
 
   private _pos: Pos;

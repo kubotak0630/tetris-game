@@ -130,7 +130,8 @@ export default class Board {
     this._bingoLines.forEach((deleteLineY, index) => {
       //ライン消去
       for (let x = 0; x < Board.WIDTH; x++) {
-        this._fixBlocks[deleteLineY][x].cellState = 'None';
+        // this._fixBlocks[deleteLineY][x].cellState = 'None';
+        this._fixBlocks[deleteLineY][x].cellState = 'Bingo';
       }
     });
 

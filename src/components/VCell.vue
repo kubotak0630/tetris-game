@@ -2,6 +2,7 @@
   <div
     class="cell"
     v-bind:class="{
+      'none-cell': isNone,
       'cyan-cell': isCyan,
       'yellow-cell': isYellow,
       'green-cell': isGreen,
@@ -10,9 +11,10 @@
       'orange-cell': isOrange,
       'magenta-cell': isMagenta,
       'wall-cell': isWall,
-      'shadow-cell': isShadow,
-      'field-cell': isField,   //FieldとNext領域でサイズを変える
-      'next-cell': !isField,   //FieldとNext領域でサイズを変える
+      'shadow-cell': isShadow, //落下地点の影
+      'bingo-cell': isBingo,
+      'field-cell': isField, //FieldとNext領域でサイズを変える
+      'next-cell': !isField, //FieldとNext領域でサイズを変える
     }"
   ></div>
 </template>
@@ -34,6 +36,9 @@ export default Vue.extend({
     },
   },
   computed: {
+    isNone(): boolean {
+      return this.cell.cellState === 'None';
+    },
     isWall(): boolean {
       return this.cell.cellState === 'Wall';
     },
@@ -61,6 +66,9 @@ export default Vue.extend({
     isShadow(): boolean {
       return this.cell.cellState === 'Shadow';
     },
+    isBingo(): boolean {
+      return this.cell.cellState === 'Bingo';
+    },
   },
 });
 </script>
@@ -68,27 +76,17 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .field-cell {
-  width: 20px;
-  height: 20px;
-  background-color: #180532;
-  // border: 1px solid gray;
-  border: 1px solid #382552;
-  // border: 1px solid #180532;
-  margin: 0 -1px -1px 0;
-  // margin: 0 -1px -1px 0;
-  // box-sizing: border-box;
+  width: 21px;
+  height: 21px;
 }
 
 .next-cell {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
+}
+
+.none-cell {
   background-color: #180532;
-  // border: 1px solid gray;
-  border: 1px solid #180532;
-  // border: 1px solid #180532;
-  margin: 0 -1px -1px 0;
-  // margin: 0 -1px -1px 0;
-  // box-sizing: border-box;
 }
 
 .cyan-cell {
@@ -120,6 +118,12 @@ export default Vue.extend({
 }
 .wall-cell {
   background-color: gray;
+}
+
+// 消えるときのエフェクト
+.bingo-cell {
+  transition: all 200ms 0s linear;
+  transform: scaleY(0);
 }
 
 .shadow-cell {
