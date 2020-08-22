@@ -1,9 +1,12 @@
 <template>
   <div class="game-wrapper">
     <div class="game-top">
-      <el-button class="back-titile-button" size="small" type="primary" @click="onClicBackTitle"
-        >タイトルへ戻る</el-button
-      >
+      <el-button
+        class="back-titile-button"
+        size="small"
+        type="primary"
+        @click="onClicBackTitle"
+      >タイトルへ戻る</el-button>
 
       <el-button class="debug-button" type="primary" @click="onClickdebug">debug</el-button>
 
@@ -21,21 +24,18 @@
           <div>{{ computedLine }}</div>
           <div class="tag-score">Score</div>
           <div>{{ computedScore }}</div>
-          <el-button class="stop-button" type="primary" @click="onClickStop">{{
+          <el-button class="stop-button" type="primary" @click="onClickStop">
+            {{
             stopFlg ? 'Resume' : 'Stop'
-          }}</el-button>
+            }}
+          </el-button>
         </div>
       </div>
 
       <div class="key-wrapper">
         <div class="dir-key">
           <div class="key-left-right-wrapper">
-            <el-button
-              class="key-left"
-              type="info"
-              icon="el-icon-caret-left"
-              @click="onBtnKeyLeft"
-            ></el-button>
+            <el-button class="key-left" type="info" icon="el-icon-caret-left" @click="onBtnKeyLeft"></el-button>
             <el-button
               class="key-right"
               type="info"
@@ -78,6 +78,7 @@ import VBord from '../components/VBord.vue';
 import VNextMinoArea from '../components/VNextMinoArea.vue';
 import Tetris from '../tetris';
 import Hammer from 'hammerjs';
+import screenfull from 'screenfull';
 
 type DataType = {
   tetris: Tetris;
@@ -116,11 +117,6 @@ export default Vue.extend({
   beforeCreate() {},
   async created() {
     console.log('--call created--');
-
-    // ipadは全画面表示にしない。スマホのみ全画面表示
-    if (document.documentElement.clientWidth < 500) {
-      document.body.requestFullscreen();
-    }
   },
   mounted() {
     console.log('--call mounted--');
@@ -262,8 +258,8 @@ export default Vue.extend({
       this.tetris.music.stop();
       this.$router.push({ name: 'TitleView' });
 
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
+      if (screenfull.isEnabled && screenfull.isFullscreen) {
+        screenfull.exit();
       }
     },
     onClickdebug() {

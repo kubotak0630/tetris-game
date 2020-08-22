@@ -16,6 +16,7 @@
 <script lang="ts">
 // @ is an alias to /src
 import Vue from 'vue';
+import screenfull from 'screenfull';
 
 export default Vue.extend({
   name: 'TitleView',
@@ -28,7 +29,17 @@ export default Vue.extend({
 
   methods: {
     onStartClick() {
-      this.$router.push({ name: 'Game', params: { isPlyaMusic: this.radioMusic } });
+      // ipadは全画面表示にしない。スマホのみ全画面表示
+      if (document.documentElement.clientWidth < 500) {
+        if (screenfull.isEnabled) {
+          //fullスクリーン処理が完了してからページ切り替え
+          screenfull.request().then(() => {
+            this.$router.push({ name: 'Game', params: { isPlyaMusic: this.radioMusic } });
+          });
+        }
+      } else {
+        this.$router.push({ name: 'Game', params: { isPlyaMusic: this.radioMusic } });
+      }
     },
   },
 });
