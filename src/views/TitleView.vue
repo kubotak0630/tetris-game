@@ -75,6 +75,20 @@ export default Vue.extend({
 .title {
   text-align: center;
 
+  h1 {
+    position: relative;
+    padding: 0.25em 0;
+    width: 240px;
+    margin-bottom: 20px;
+
+    &:after {
+      content: '';
+      display: block;
+      height: 4px;
+      background: linear-gradient(to right, rgb(55, 95, 230), transparent);
+    }
+  }
+
   .setting {
     width: 240px;
     .text-label {
