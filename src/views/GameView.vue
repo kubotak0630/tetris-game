@@ -102,6 +102,11 @@ export default Vue.extend({
       // required: true,
       default: 'off',
     },
+    isVibration: {
+      type: String as PropType<'on' | 'off'>,
+      // required: true,
+      default: 'on',
+    },
   },
   data(): DataType {
     return {
@@ -115,7 +120,7 @@ export default Vue.extend({
     };
   },
   beforeCreate() {},
-  async created() {
+  created() {
     console.log('--call created--');
   },
   mounted() {
@@ -148,6 +153,9 @@ export default Vue.extend({
       // alert('pressed!');
       this.tetris.nowFastFall = true;
     });
+
+    //振動のON/OFF設定
+    this.tetris.vibration = this.isVibration === 'on';
 
     //メインループの起動
     this.prevTimestamp = performance.now();

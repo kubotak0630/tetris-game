@@ -18,6 +18,7 @@ export default class Tetris {
   private _nowLineDeleteFrameCnt: number;
   private _smaphoMode: boolean;
   private _nowFastFall: boolean;
+  private _isVibration: boolean;
 
   constructor() {
     console.log('call Tetris constructor');
@@ -31,6 +32,7 @@ export default class Tetris {
     this._nowLineDeleteFrameCnt = 0;
     this._smaphoMode = false;
     this._nowFastFall = false;
+    this._isVibration = false;
 
     this._board.draw();
   }
@@ -75,6 +77,10 @@ export default class Tetris {
 
   get nowFastFall() {
     return this._nowFastFall;
+  }
+
+  set vibration(flg: boolean) {
+    this._isVibration = flg;
   }
 
   //Minoがゲーム中に存在しているかどうか？
@@ -186,7 +192,10 @@ export default class Tetris {
           //ライン消去処理(消すだけ)
           const delLineNum = this.board.deleteLineStep1(this._mino.getMinoLines());
           if (delLineNum) {
-            window.navigator.vibrate(80);
+            if (this._isVibration) {
+              window.navigator.vibrate(100);
+            }
+
             this._nowLineDeleteFrameCnt = 20;
             this._scoreCtrl.addLineCnt(delLineNum);
           } else {

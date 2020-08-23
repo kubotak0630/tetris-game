@@ -1,15 +1,28 @@
 <template>
-  <div class="title">
-    <h1>Tetris Game</h1>
+  <div class="top-container">
+    <div class="title">
+      <h1>Tetris Game</h1>
 
-    <div class="music-select">
-      <el-radio-group v-model="radioMusic">
-        <el-radio-button label="on">Music ON</el-radio-button>
-        <el-radio-button label="off">Music OFF</el-radio-button>
-      </el-radio-group>
+      <div class="setting music-select">
+        <span class="text-label">Music</span>
+        <el-radio-group v-model="radioMusic">
+          <el-radio-button label="on">ON</el-radio-button>
+          <el-radio-button label="off">OFF</el-radio-button>
+        </el-radio-group>
+        <hr class="hr01" />
+      </div>
+
+      <div class="setting vibrate-select">
+        <span class="text-label">Vibration</span>
+        <el-radio-group v-model="radioVibration">
+          <el-radio-button label="on">ON</el-radio-button>
+          <el-radio-button label="off">OFF</el-radio-button>
+        </el-radio-group>
+        <hr class="hr01" />
+      </div>
+
+      <el-button class="start-button" type="primary" @click="onStartClick">Play Start</el-button>
     </div>
-
-    <el-button class="start-button" type="primary" @click="onStartClick">Play Start</el-button>
   </div>
 </template>
 
@@ -24,6 +37,7 @@ export default Vue.extend({
   data() {
     return {
       radioMusic: 'off',
+      radioVibration: 'on',
     };
   },
 
@@ -34,11 +48,17 @@ export default Vue.extend({
         if (screenfull.isEnabled) {
           //fullスクリーン処理が完了してからページ切り替え
           screenfull.request().then(() => {
-            this.$router.push({ name: 'Game', params: { isPlyaMusic: this.radioMusic } });
+            this.$router.push({
+              name: 'Game',
+              params: { isPlyaMusic: this.radioMusic, isVibration: this.radioVibration },
+            });
           });
         }
       } else {
-        this.$router.push({ name: 'Game', params: { isPlyaMusic: this.radioMusic } });
+        this.$router.push({
+          name: 'Game',
+          params: { isPlyaMusic: this.radioMusic, isVibration: this.radioVibration },
+        });
       }
     },
   },
@@ -46,8 +66,32 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+.top-container {
+  // text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
 .title {
   text-align: center;
+
+  .setting {
+    width: 240px;
+    .text-label {
+      text-align: left;
+      display: inline-block;
+      width: 90px;
+    }
+
+    .hr01 {
+      height: 0;
+      padding: 0;
+      border: 0;
+      // width: 240px;
+      height: 10px;
+      box-shadow: 0 5px 5px -5px #bbb inset;
+    }
+  }
 
   .start-button {
     margin-top: 20px;
