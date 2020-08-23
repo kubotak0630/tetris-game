@@ -186,6 +186,7 @@ export default class Tetris {
           //ライン消去処理(消すだけ)
           const delLineNum = this.board.deleteLineStep1(this._mino.getMinoLines());
           if (delLineNum) {
+            window.navigator.vibrate(200);
             this._nowLineDeleteFrameCnt = 20;
             this._scoreCtrl.addLineCnt(delLineNum);
           } else {
