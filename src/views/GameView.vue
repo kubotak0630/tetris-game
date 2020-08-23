@@ -8,7 +8,7 @@
         @click="onClicBackTitle"
       >タイトルへ戻る</el-button>
 
-      <el-button class="debug-button" type="primary" @click="onClickdebug">debug</el-button>
+      <!-- <el-button class="debug-button" type="primary" @click="onClickdebug">debug</el-button> -->
 
       <!-- <div id="target">長押ししてください</div> -->
 

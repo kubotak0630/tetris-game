@@ -193,7 +193,7 @@ export default class Tetris {
           const delLineNum = this.board.deleteLineStep1(this._mino.getMinoLines());
           if (delLineNum) {
             if (this._isVibration) {
-              window.navigator.vibrate(100);
+              window.navigator.vibrate(80);
             }
 
             this._nowLineDeleteFrameCnt = 20;
